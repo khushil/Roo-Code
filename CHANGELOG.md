@@ -1,5 +1,16 @@
 # Roo Code Changelog
 
+## 3.11.0
+
+### Minor Changes
+
+- UX fixes that:
+
+### Patch Changes
+
+- Add settings migration to support renaming legacy settings files to new format
+- Add the openAiR1FormatEnabled field to enable this switch in OpenAI compatible mode to support the current QWQ and future additional classes of R1 models.
+
 ## [3.10.3] - 2025-03-23
 
 - Update the welcome page to provide 1-click OAuth flows with LLM routers (thanks @dtrugman!)
