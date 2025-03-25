@@ -169,6 +169,11 @@
 				"command": "roo-cline.setCustomStoragePath",
 				"title": "Set Custom Storage Path",
 				"category": "Roo Code"
+			},
+			{
+				"command": "roo-cline.analyzeRepository",
+				"title": "Analyze Repository for Vibe Coding",
+				"category": "Roo Code"
 			}
 		],
 		"menus": {
@@ -298,6 +303,95 @@
 					"type": "string",
 					"default": "",
 					"description": "Custom storage path. Leave empty to use the default location. Supports absolute paths (e.g. 'D:\\RooCodeStorage')"
+				},
+				"roo-cline.repositoryAnalysis.includePatterns": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [],
+					"description": "Glob patterns for files to include in repository analysis. Empty array means include all files."
+				},
+				"roo-cline.repositoryAnalysis.excludePatterns": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"**/node_modules/**",
+						"**/dist/**",
+						"**/build/**",
+						"**/.git/**",
+						"**/vendor/**",
+						"**/bin/**",
+						"**/obj/**",
+						"**/__pycache__/**",
+						"**/venv/**",
+						"**/.venv/**",
+						"**/env/**",
+						"**/.env/**",
+						"**/.idea/**",
+						"**/.vscode/**"
+					],
+					"description": "Glob patterns for files to exclude from repository analysis."
+				},
+				"roo-cline.repositoryAnalysis.summaryLlmProfile": {
+					"type": "string",
+					"default": "",
+					"description": "LLM profile to use for generating codebase summary. Leave empty to use default."
+				},
+				"roo-cline.repositoryAnalysis.readabilityLlmProfile": {
+					"type": "string",
+					"default": "",
+					"description": "LLM profile to use for assessing code readability. Leave empty to use default."
+				},
+				"roo-cline.repositoryAnalysis.recommendationsLlmProfile": {
+					"type": "string",
+					"default": "",
+					"description": "LLM profile to use for generating recommendations. Leave empty to use default."
+				},
+				"roo-cline.repositoryAnalysis.enabledAnalyzers": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": [
+							"javascript",
+							"typescript",
+							"python",
+							"java",
+							"generic"
+						]
+					},
+					"default": [
+						"javascript",
+						"typescript",
+						"python",
+						"java",
+						"generic"
+					],
+					"description": "Enabled code analyzers for repository analysis."
+				},
+				"roo-cline.repositoryAnalysis.maxFilesPerChunk": {
+					"type": "number",
+					"default": 100,
+					"description": "Maximum number of files to analyze in one chunk."
+				},
+				"roo-cline.repositoryAnalysis.samplingStrategy": {
+					"type": "string",
+					"enum": [
+						"random",
+						"importance",
+						"none"
+					],
+					"default": "importance",
+					"description": "Strategy for sampling files in large repositories."
+				},
+				"roo-cline.repositoryAnalysis.samplingPercentage": {
+					"type": "number",
+					"default": 100,
+					"minimum": 1,
+					"maximum": 100,
+					"description": "Percentage of files to sample in large repositories."
 				}
 			}
 		}

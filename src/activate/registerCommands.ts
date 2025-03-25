@@ -4,6 +4,7 @@ import delay from "delay"
 import { ClineProvider } from "../core/webview/ClineProvider"
 
 import { registerHumanRelayCallback, unregisterHumanRelayCallback, handleHumanRelayResponse } from "./humanRelay"
+import { registerRepositoryAnalysisCommand } from "../integrations/repository-analysis/command-handler"
 
 // Store panel references in both modes
 let sidebarPanel: vscode.WebviewView | undefined = undefined
@@ -45,6 +46,9 @@ export const registerCommands = (options: RegisterCommandOptions) => {
 	for (const [command, callback] of Object.entries(getCommandsMap(options))) {
 		context.subscriptions.push(vscode.commands.registerCommand(command, callback))
 	}
+
+	// Register repository analysis command
+	registerRepositoryAnalysisCommand(context)
 }
 
 const getCommandsMap = ({ context, outputChannel, provider }: RegisterCommandOptions) => {
@@ -93,10 +97,6 @@ const getCommandsMap = ({ context, outputChannel, provider }: RegisterCommandOpt
 }
 
 const openClineInNewTab = async ({ context, outputChannel }: Omit<RegisterCommandOptions, "provider">) => {
-	// (This example uses webviewProvider activation event which is necessary to
-	// deserialize cached webview, but since we use retainContextWhenHidden, we
-	// don't need to use that event).
-	// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
 	const tabProvider = new ClineProvider(context, outputChannel, "editor")
 	const lastCol = Math.max(...vscode.window.visibleTextEditors.map((editor) => editor.viewColumn || 0))
 
@@ -119,8 +119,6 @@ const openClineInNewTab = async ({ context, outputChannel }: Omit<RegisterComman
 	// Save as tab type panel.
 	setPanel(newPanel, "tab")
 
-	// TODO: Use better svg icon with light and dark variants (see
-	// https://stackoverflow.com/questions/58365687/vscode-extension-iconpath).
 	newPanel.iconPath = {
 		light: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "rocket.png"),
 		dark: vscode.Uri.joinPath(context.extensionUri, "assets", "icons", "rocket.png"),
